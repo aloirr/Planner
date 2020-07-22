@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+    <head>
+        <title>File Upload</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <form method="POST" action="saveUploadedFile" enctype="multipart/form-data" >
+            <input value="Escolhe o arquivo" type="file" name="file" id="file" /> <br/>
+            <label>Diretório destino: </label><input type="text" value="/tmp/" name="destination"/><br/>
+            <input type="submit" value="Carrega	r arquivo" name="upload"/>
+        </form>
+    </body>
+</html>

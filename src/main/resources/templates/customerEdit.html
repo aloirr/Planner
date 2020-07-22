@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Cadastro de Clientes</title>
+<link href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"
+	rel="stylesheet"></link>
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Edicao de Clientes</strong>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" th:object="${customer}"
+				th:action="@{/planner/save}" method="post" style="margin: 10px">
+				<div class="form-group">
+					<fieldset>
+						<div class="form-group row">
+							<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+								<div th:each="detailedError : ${#fields.detailedErrors()}">
+									<span th:text="${detailedError.message}"></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-1" style="display: none;" />
+							<input type="hidden" class="form-control input-sm"
+								th:field="*{id}" readonly="readonly" style="display: none;" />
+						</div>
+						<div class="col-md-1">
+							<label>CÓD. DO CLIENTE</label> <input type="text"
+								class="form-control input-sm" th:field="*{customerId}"
+								readonly="readonly" />
+						</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('companyName')}? 'has-error'">
+						<label>RAZAO SOCIAL</label> <input type="text"
+							class="form-control input-sm" th:field="*{companyName}"
+							autofocus="autofocus" placeholder="Informe o texto"
+							maxlength="50" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('tradeName')}? 'has-error'">
+						<label>NOME FANTASIA</label> <input type="text"
+							class="form-control input-sm" th:field="*{tradeName}"
+							maxlength="150" placeholder="Informe o texto" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('sectorId')}? 'has-error'">
+						<label>SETOR</label> <input type="text"
+							class="form-control input-sm" th:field="*{sectorId}" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('neighborhood')}? 'has-error'">
+						<label>BAIRRO</label>
+						<textarea class="form-control input-sm" th:field="*{neighborhood}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('place')}? 'has-error'">
+						<label>LOGRADOURO</label>
+						<textarea class="form-control input-sm" th:field="*{place}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('neighborhood')}? 'has-error'">
+						<label>NUMERO</label>
+						<textarea class="form-control input-sm" th:field="*{placeId}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('city')}? 'has-error'">
+						<label>CIDADE</label>
+						<textarea class="form-control input-sm" th:field="*{city}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('visitDay')}? 'has-error'">
+						<label>DIA DE VISITA</label>
+						<textarea class="form-control input-sm" th:field="*{visitDay}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('region')}? 'has-error'">
+						<label>REGIAO</label>
+						<textarea class="form-control input-sm" th:field="*{region}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('latitude')}? 'has-error'">
+						<label>LATITUDE</label>
+						<textarea class="form-control input-sm" th:field="*{latitude}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-2"
+						th:classappend="${#fields.hasErrors('longitude')}? 'has-error'">
+						<label>LONGITUDE</label>
+						<textarea class="form-control input-sm" th:field="*{longitude}"
+							placeholder="Informe o texto"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+					<a th:href="@{/planner}" class="btn btn-sm btn-default">Cancelar</a>
+				</div>
+				</fieldset>
+		</div>
+		</form>
+	</div>
+	</div>
+</body>
+</html>
