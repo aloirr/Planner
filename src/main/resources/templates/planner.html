@@ -10,6 +10,9 @@
 	rel="stylesheet"></link>
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFoB8O3Z9lEQ4E8Xfhi5qfUKNVC4sfq-w&libraries=&v=weekly"
+	defer></script>
 </head>
 <body>
 	<div class="panel panel-default">
@@ -32,6 +35,7 @@
 							<th>DIA DE VISITA</th>
 							<th>CIDADE</th>
 							<th>REGIAO</th>
+							<th>CEP</th>
 							<th>LATITUDE</th>
 							<th>LONGITUDE</th>
 						</tr>
@@ -48,13 +52,16 @@
 							<td th:text="${customer.visitDay}"></td>
 							<td th:text="${customer.city}"></td>
 							<td th:text="${customer.region}"></td>
+							<td th:text="${customer.postalCode}"></td>
 							<td th:text="${customer.latitude}"></td>
 							<td th:text="${customer.longitude}"></td>
 							<td>
 								<div class="btn-group pull-right">
 									<a class="btn btn-sm btn-primary"
-										th:href="@{/planner/edit/{id}(id=${customer.Id})}">Editar</a> <a
-										class="delete btn btn-sm btn-danger"
+										th:href="@{/teste/{id}(id=${customer.Id})}">Ver
+										no mapa</a> <a class="btn btn-sm btn-primary"
+										th:href="@{/planner/edit/{id}(id=${customer.Id})}">Editar</a>
+									<a class="delete btn btn-sm btn-danger"
 										th:href="@{/planner/delete/{id}(id=${customer.Id})}">Excluir</a>
 								</div>
 							</td>
@@ -63,9 +70,6 @@
 				</table>
 			</div>
 		</div>
-		<!-- 		<div class="panel-footer"> -->
-		<!-- 			<a class="btn btn-sm btn-success" th:href="@{/add/}">Adicionar</a> -->
-		<!-- 		</div> -->
 	</div>
 </body>
 </html>

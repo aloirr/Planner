@@ -14,15 +14,13 @@ import com.google.maps.model.GeocodingResult;
 @Service
 public class MapsApiService {
 
-	public static String getLat(String address) throws ApiException, InterruptedException, IOException {
+	public static Double getLat(String address) throws ApiException, InterruptedException, IOException {
 		GeocodingResult[] results = GeocodingApi.geocode(MapsApi.getInstance().getContext(), address).await();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		return gson.toJson(results[0].geometry.location.lat);
+		return results.length > 0 ? results[0].geometry.location.lat : 0;
 	}
 
-	public static String getLng(String address) throws ApiException, InterruptedException, IOException {
+	public static Double getLng(String address) throws ApiException, InterruptedException, IOException {
 		GeocodingResult[] results = GeocodingApi.geocode(MapsApi.getInstance().getContext(), address).await();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		return gson.toJson(results[0].geometry.location.lat);
+		return results.length > 0 ? results[0].geometry.location.lng : 0;
 	}
 }

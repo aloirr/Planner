@@ -41,6 +41,8 @@ public class Customer implements Serializable {
 	private String latitude;
 	@Column
 	private String longitude;
+	@Column
+	private String postalCode;
 
 	public Customer() {
 
@@ -48,7 +50,7 @@ public class Customer implements Serializable {
 
 	public Customer(Integer id, Integer customerId, String sectorId, String placeId, String companyName,
 			String tradeName, String place, String neighborhood, String city, String visitDay, String region,
-			String latitude, String longitude) {
+			String latitude, String longitude, String postalCode) {
 		this.id = id;
 		this.customerId = customerId;
 		this.sectorId = sectorId;
@@ -62,11 +64,12 @@ public class Customer implements Serializable {
 		this.region = region;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.postalCode = postalCode;
 	}
 
 	public Customer(Integer customerId, String sectorId, String placeId, String companyName, String tradeName,
 			String place, String neighborhood, String city, String visitDay, String region, String latitude,
-			String longitude) {
+			String longitude, String postalCode) {
 		this.customerId = customerId;
 		this.sectorId = sectorId;
 		this.placeId = placeId;
@@ -79,10 +82,19 @@ public class Customer implements Serializable {
 		this.region = region;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.postalCode = postalCode;
 	}
 
 	public Integer getId() {
 		return id;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
 
 	public Integer setId(Integer id) {
