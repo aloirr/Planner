@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="US-ASCII">
+<title>Configurando os vendedores</title>
+</head>
+<body>
+	<div>
+
+		<table>
+			<tr style="vertical-align: top">
+				<td>
+					<form method="post" th:object="${salesman}"
+						th:action="@{/createSalesman(action=save)}">
+						<table>
+							<tr style="vertical-align: top">
+
+								<td><input type="hidden" th:field="*{Id}" readonly><br>
+									<label>Setor: </label> <input type="number"
+									placeholder="Digite o setor (ex.: 101)" th:field="*{sectorId}"
+									required /><br> <label>Nome: </label><input type="text"
+									placeholder="nome do vendedor" th:field="*{name}" required /><br>
+									<label>Base de clientes: </label><input type="number"
+									placeholder="tamanho da base de clientes"
+									th:field="*{baseSize}" required /><br> <label>Média
+										de clientes/dia: </label> <input type="number"
+									placeholder="média diaria de clientes"
+									th:field="*{baseSizeDay}" required /><br>
+									<button type="submit">Salvar vendedor</button> <a
+									th:href="@{/planner}"> Retornar</a></td>
+								<td><label>Marcar os bairros a atender:</label> <br>
+									<ul class="salesmanDiv" th:object="${salesman}"
+										th:attr="data-object=${salesman.neighborhoods}">
+										<li th:each="neighbor : ${neighborhoods}"><input
+											type="checkbox" th:disabled="${neighbor.disabled}"
+											th:field="*{neighborhoods}"
+											th:value="${neighbor.neighborhood}" /><label
+											th:for="${neighbor.neighborhood}"
+											th:text="${neighbor.neighborhood}"></label><label> /
+												<span th:text="${neighbor.city}"></span> / <span
+												th:text="${neighbor.neighborhoodSize}"></span> PDV(S)
+										</label></li>
+									</ul></td>
+							</tr>
+						</table>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Setor</th>
+								<th>Base de clientes</th>
+								<th>Média diária de clientes</th>
+								<th>Bairros atendidos</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="
+											salesmanTable: ${salesmen}">
+								<td style="display: none;" th:text="${salesmanTable.Id}"></td>
+								<td th:text="${salesmanTable.name}"></td>
+								<td th:text="${salesmanTable.sectorId}"></td>
+								<td th:text="${salesmanTable.baseSize}"></td>
+								<td th:text="${salesmanTable.baseSizeDay}"></td>
+								<td style="table-layout: fixed; width: 500px"
+									th:text="${salesmanTable.neighborhoods}"></td>
+								<td><form method="POST"
+										th:action="@{/createSalesman(action=edit,sectorId=${salesmanTable.sectorId})}">
+										<button type="submit">Editar</button>
+									</form>
+									<form method="POST"
+										th:action="@{/createSalesman(action=delete,sectorId=${salesmanTable.sectorId})}">
+										<button type="submit">Excluir</button>
+									</form></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script src="https://jquery.gocache.net/jquery-3.5.1.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script src="/js/checkboxFunctions.js"></script>
+</body>
+</html>

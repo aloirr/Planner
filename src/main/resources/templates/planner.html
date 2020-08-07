@@ -13,32 +13,45 @@
 <script type="text/javascript"
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFoB8O3Z9lEQ4E8Xfhi5qfUKNVC4sfq-w&libraries=&v=weekly"
 	defer></script>
+<script src="/js/popupFunctions.js"></script>
 </head>
 <body>
 	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong>Clientes</strong>
-		</div>
+		<div class="panel-heading"></div>
 		<div class="panel-body">
+			<div>
+				<form method="POST" th:action="@{/createSalesman(action=view)}">
+					<input value="Configurar vendedores" type="submit">
+				</form>
+				<form method="POST" th:action="@{/planner(action=update)}">
+					<input value="Iniciar Roteirizacão" type="submit">
+				</form>
+				<form method="POST" th:action="@{/planner(action=exportCSV)}">
+					<input value="Exportar para arquivo CSV" type="submit">
+				</form>
+			</div>
 			<div class="table-responsive">
 				<table
 					class="table table-sm table-striped table-hover table-bordered">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>SETOR</th>
-							<th>NOME FANTASIA</th>
-							<th>RAZAO SOCIAL</th>
-							<th>BAIRRO</th>
-							<th>LOGRADOURO</th>
-							<th>NUMERO</th>
-							<th>DIA DE VISITA</th>
-							<th>CIDADE</th>
-							<th>REGIAO</th>
-							<th>CEP</th>
-							<th>LATITUDE</th>
-							<th>LONGITUDE</th>
-						</tr>
+					<thead->
+					<tr>
+						<th><a th:href="@{/planner(sortBy=customerId)}">ID</a></th>
+						<th><a th:href="@{/planner(sortBy=sectorId)}">SETOR</a></th>
+						<th><a th:href="@{/planner(sortBy=tradeName)}">NOME
+								FANTASIA</a></th>
+						<th><a th:href="@{/planner(sortBy=companyName)}">RAZAO
+								SOCIAL</a></th>
+						<th><a th:href="@{/planner(sortBy=neighborhood)}">BAIRRO</a></th>
+						<th><a th:href="@{/planner(sortBy=place)}">LOGRADOURO</a></th>
+						<th><a th:href="@{/planner(sortBy=placeId)}">NUMERO</a></th>
+						<th><a th:href="@{/planner(sortBy=visitDay)}">DIA DE
+								VISITA</a></th>
+						<th><a th:href="@{/planner(sortBy=city)}">CIDADE</a></th>
+						<th><a th:href="@{/planner(sortBy=region)}">REGIAO</a></th>
+						<th><a th:href="@{/planner(sortBy=postalCode)}">CEP</a></th>
+						<th><a th:href="@{/planner(sortBy=latitude)}">LATITUDE</a></th>
+						<th><a th:href="@{/planner(sortBy=longitude)}">LONGITUDE</a></th>
+					</tr>
 					</thead>
 					<tbody>
 						<tr th:each="customer : ${customers}">
@@ -57,12 +70,13 @@
 							<td th:text="${customer.longitude}"></td>
 							<td>
 								<div class="btn-group pull-right">
+									<button
+										th:attr='onclick=|newPopup(@{"/map/{customerId}(customerId=${customer.customerId})}")|'
+										class="btn btn-sm btn-primary">Ver no mapa</button>
 									<a class="btn btn-sm btn-primary"
-										th:href="@{/teste/{id}(id=${customer.Id})}">Ver
-										no mapa</a> <a class="btn btn-sm btn-primary"
-										th:href="@{/planner/edit/{id}(id=${customer.Id})}">Editar</a>
+										th:href="@{/planner/edit/{customerId}(customerId=${customer.customerId})}">Editar</a>
 									<a class="delete btn btn-sm btn-danger"
-										th:href="@{/planner/delete/{id}(id=${customer.Id})}">Excluir</a>
+										th:href="@{/planner/delete/{customerId}(cusdtomerId=${customer.customerId})}">Excluir</a>
 								</div>
 							</td>
 						</tr>

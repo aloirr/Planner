@@ -1,40 +1,35 @@
-let map;
-var lat = parseFloat($('.mapa').attr('data-latitude'))
-var lng = parseFloat($('.mapa').attr('data-longitude'))
+let map
+//var lat = parseFloat($('.mapa').attr('data-latitude'))
+//var lng = parseFloat($('.mapa').attr('data-longitude'))
+
+//const $customers = JSON.stringify($('.map').data('object'))
+const $customers = JSON.parse(JSON.stringify($('.map').data('object')))
+//const customers = JSON.parse($div.data('object'))
 function initialize() {
-	latlng = new google.maps.LatLng(lat, lng)
+	latlng = new google.maps.LatLng(2.819929, -60.672833)
 	var options = {
 		center: latlng,
-		zoom: 18,
+		zoom: 15,
 		//		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
-	map = new google.maps.Map(document.getElementById("map"), options);
+	map = new google.maps.Map(document.getElementById("mapDiv"), options);
 }
-function carregarPonto() {
-	var marker = new google.maps.Marker({
-		position: new google.maps.LatLng(lat, lng),
-		title: "Marcador cliente",
-		map: map
-	});
-}
-function carregarPontos() {
-
-	$.getJSON('js/pontos.json', function(pontos) {
-
-		$.each(pontos, function(index, ponto) {
-
-			var marker = new google.maps.Marker({
-				position: new google.maps.LatLng(ponto.Latitude, ponto.Longitude),
-				title: "Meu ponto personalizado! :-D",
-				map: map
-			});
+function loadCustomersMarks() {
+	$.each($customers, function(index, customer) {
+		var marker = new google.maps.Marker({
+			position: new google.maps.LatLng(customer.latitude, customer.longitude),
+			title: customer.customerId + " - " + customer.tradeName + " - " + customer.place + " - " + customer.city,
+			draggable: true,
+			map: map
 		});
+		map.center = new google.maps.LatLng(customer.latitude, customer.longitude)
+		document.addEventListener("dragend", changeMarker(map, marker))
 	});
 }
-function newPopup(page){
-varWindow = window.open (page, 'popup')
-}
-console.log(parseFloat(lat))
-console.log(parseFloat(lng))
+
+// METODO PARA ESCUTAR EVENTOS NO GOOGLE MAPS
+// google.maps.event.addDomListener(mapDiv, "click", () => {
+//    window.alert("Map was clicked!");
+//  });
 initialize()
-carregarPonto()
+loadCustomersMarks()

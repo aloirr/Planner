@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.br.aloi.planner.model.MapsApi;
+import com.br.aloi.planner.model.GoogleMapApiModel;
 import com.br.aloi.planner.repository.CustomerRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

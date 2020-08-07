@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Configurar parametros para o planner</title>
+</head>
+<body>
+	<div>
+		<label>Parametros de vendas para planner</label>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>SETOR</th>
+				<th>NOME</th>
+				<th>TAMANHO DA BASE DESEJADO</th>
+				<th>MÉDIA DE CLIENTES/DIA DESEJADO</th>
+				<th>BAIRROS A ATENDER</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="salesman : ${salesmen}">
+				<td th:text="${salesman.sectorId"></td>
+				<td th:text="${salesman.name"></td>
+				<td th:text="${salesman.baseSize"></td>
+				<td th:text="${salesman.baseSizeDay"></td>
+				<td th:text="${salesman.neighborhoods"></td>
+		</tbody>
+	</table>
+</body>
+</html>

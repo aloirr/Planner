@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @SuppressWarnings("serial")
 @Entity(name = "tbl_customer")
 @AllArgsConstructor
-public class Customer implements Serializable {
+public class CustomerModel implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -44,11 +44,11 @@ public class Customer implements Serializable {
 	@Column
 	private String postalCode;
 
-	public Customer() {
+	public CustomerModel() {
 
 	}
 
-	public Customer(Integer id, Integer customerId, String sectorId, String placeId, String companyName,
+	public CustomerModel(Integer id, Integer customerId, String sectorId, String placeId, String companyName,
 			String tradeName, String place, String neighborhood, String city, String visitDay, String region,
 			String latitude, String longitude, String postalCode) {
 		this.id = id;
@@ -67,7 +67,7 @@ public class Customer implements Serializable {
 		this.postalCode = postalCode;
 	}
 
-	public Customer(Integer customerId, String sectorId, String placeId, String companyName, String tradeName,
+	public CustomerModel(Integer customerId, String sectorId, String placeId, String companyName, String tradeName,
 			String place, String neighborhood, String city, String visitDay, String region, String latitude,
 			String longitude, String postalCode) {
 		this.customerId = customerId;
