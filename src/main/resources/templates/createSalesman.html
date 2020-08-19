@@ -26,9 +26,10 @@
 									th:field="*{baseSize}" required /><br> <label>Média
 										de clientes/dia: </label> <input type="number"
 									placeholder="média diaria de clientes"
-									th:field="*{baseSizeDay}" required /><br>
-									<button type="submit">Salvar vendedor</button> <a
-									th:href="@{/planner}"> Retornar</a></td>
+									th:field="*{baseSizeDay}" required /><br> <input
+									onclick="return validate()" type="submit"
+									value="Salvar vendedor">
+									</button> <a th:href="@{/planner}"> Retornar</a></td>
 								<td><label>Marcar os bairros a atender:</label> <br>
 									<ul class="salesmanDiv" th:object="${salesman}"
 										th:attr="data-object=${salesman.neighborhoods}">
