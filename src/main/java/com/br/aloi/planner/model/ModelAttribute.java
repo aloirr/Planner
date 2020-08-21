@@ -2,24 +2,24 @@ package com.br.aloi.planner.model;
 
 public class ModelAttribute {
 
-  private Integer modelId;
+  private Long modelId;
   private String key;
   private String value;
 
   public ModelAttribute() {
   }
 
-  public ModelAttribute(Integer modelId, String key, String value) {
+  public ModelAttribute(Long modelId, String key, String value) {
 	 this.modelId = modelId;
 	 this.key = key;
 	 this.value = value;
   }
 
-  public Integer getModelId() {
+  public Long getModelId() {
 	 return modelId;
   }
 
-  public void setModelId(Integer modelId) {
+  public void setModelId(Long modelId) {
 	 this.modelId = modelId;
   }
 

@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import com.br.aloi.planner.model.GenericModel;
 import com.br.aloi.planner.model.ModelAttribute;
-import com.br.aloi.planner.model.SalesmanModel;
 import com.br.aloi.planner.repository.ModelRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +36,7 @@ public class ModelService {
   private ModelRepository modelRepository;
 
   public void deleteAll() {
-	 if (!modelRepository.findAll().isEmpty()) {
+	 if (modelRepository.findAll().iterator().hasNext()) {
 		modelRepository.deleteAll();
 	 }
   }
@@ -48,7 +48,7 @@ public class ModelService {
 			 .withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim()
 			 .withAllowMissingColumnNames());
 		GenericModel csvModel = new GenericModel();
-		Integer count = (int) (long) modelRepository.count();
+		Long count = 0L;
 		for (CSVRecord csvRecord : csvParser) {
 		  List<ModelAttribute> attributesList = new ArrayList<>();
 		  for (String header : csvRecord.getParser().getHeaderNames()) {
@@ -68,7 +68,7 @@ public class ModelService {
 		  Gson gson = new Gson();
 		  String modelAttributesJson = gson.toJson(attributesList, baseType);
 		  csvModel.setAttributes(modelAttributesJson);
-		  csvModel.setId(count);
+		  csvModel.setId(count.longValue());
 		  modelRepository.save(csvModel);
 		  csvModel = new GenericModel();
 		  count++;
@@ -103,13 +103,16 @@ public class ModelService {
   }
 
   public List<GenericModel> findAll() {
-	 return modelRepository.findAll();
+	 List<GenericModel> listModels = new ArrayList<>();
+	 Iterator<GenericModel> it = modelRepository.findAll().iterator();
+	 while (it.hasNext()) {
+		listModels.add(it.next());
+	 }
+	 return listModels;
   }
 
   public void delete(GenericModel csvModel) {
-	 if (modelRepository.findById(csvModel.getId()).isPresent()) {
-		modelRepository.delete(csvModel);
-	 }
+	 modelRepository.delete(csvModel);
   }
 
   public List<GenericModel> findByAttribute(String key, Object value) {
@@ -122,19 +125,7 @@ public class ModelService {
 	 return csvModels;
   }
 
-  public void updateDB(List<SalesmanModel> salesmen) {
-	 int index = 0;
-	 List<GenericModel> csvModels = modelRepository.findAll();
-	 while (index < csvModels.size()) {
-		// TODO: COLOCAR AQUI O METODO PARA ATUALIZAR OS VENDEDORES DA TABELA CSV
-		// DINAMICA
-	 }
-	 index++;
-	 modelRepository.flush();
-  }
-
-  public Optional<GenericModel> findById(Integer id) {
+  public Optional<GenericModel> findById(Long id) {
 	 return modelRepository.findById(id);
   }
-
 }

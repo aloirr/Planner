@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GenericModel implements Serializable {
   @Id
-  private Integer id;
+  private Long id;
   @Column(length = 1024)
   @Size(max = 1024)
   private String attributes;
@@ -23,11 +23,11 @@ public class GenericModel implements Serializable {
 
   }
 
-  public Integer getId() {
+  public Long getId() {
 	 return id;
   }
 
-  public Integer setId(Integer id) {
+  public Long setId(Long id) {
 	 return this.id = id;
   }
 

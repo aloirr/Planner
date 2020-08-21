@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.br.aloi.planner.model.GenericModel;
@@ -29,13 +30,11 @@ public class ModelController {
 
   @Autowired
   private ModelService modelService;
-  @Autowired
-  private GoogleMapApiController mapController;
 
   @GetMapping("/planner/edit/{id}")
-  public ModelAndView edit(@PathVariable("{id}") Integer id) {
+  public ModelAndView edit(@PathVariable("{id}") Long long1) {
 	 ModelAndView mv = new ModelAndView("/customerEdit");
-	 mv.addObject("csvModel", modelService.findByAttribute("id", id.toString()));
+	 mv.addObject("csvModel", modelService.findByAttribute("id", long1.toString()));
 	 return mv;
   }
 
@@ -43,20 +42,25 @@ public class ModelController {
   public ModelAndView getPlanner(
 		@RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortParam,
 		@RequestParam(value = "action", required = false) Optional<String> action,
-		@RequestParam(value = "id", required = false) Optional<String> id)
+		@RequestParam(value = "id", required = false) Optional<Long> id)
 		throws ApiException, InterruptedException, IOException {
 	 action = action.isPresent() ? action : Optional.ofNullable("");
 	 switch (action.get()) {
-	 case "update":
-		return getPlanner("id", null, null);
 	 case "viewMap":
-		if (id.get().matches("[0-9]*")) {
-		  return mapController.map(id);
+		if (id.isPresent()) {
+		  ModelAndView mv = new ModelAndView("/map");
+		  Optional<GenericModel> models = modelService.findById(id.get());
+		  System.out.println(models.get().getAttributes());
+		  mv.addObject("mapModels", new Gson().toJson(models.get()));
+		  return mv;
 		} else {
-		  return mapController.map(null);
+		  System.out.println("GETPLANNER VIEWMAP TODOS");
+		  ModelAndView mv = new ModelAndView("/map");
+		  return mv;
 		}
 	 default:
-		ModelAndView mv = new ModelAndView("/planner");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/planner");
 		List<GenericModel> models = modelService.findAll();
 		List<String> headers = new ArrayList<>();
 		Type baseType = new TypeToken<List<ModelAttribute>>() {
@@ -74,7 +78,6 @@ public class ModelController {
 		mv.addObject("modelsAttributes", modelsAttributes);
 		return mv;
 	 }
-
   }
 
   @GetMapping("/planner/delete/{id}")
@@ -96,10 +99,61 @@ public class ModelController {
 
   @PostMapping("/planner")
   public ModelAndView postPlanner(
-		@RequestParam(value = "action", required = false) String action,
-		@RequestParam(value = "id", required = false) Optional<Integer> id)
+		@RequestParam(value = "action", required = false) Optional<String> action,
+		@RequestParam(value = "id", required = false) Optional<Long> id)
 		throws ApiException, InterruptedException, IOException {
-	 return getPlanner("id", null, null);
+	 action = action.isPresent() ? action : Optional.ofNullable("");
+	 switch (action.get()) {
+	 case "viewMap":
+		if (id.isPresent()) {
+		  ModelAndView mv = new ModelAndView("/map");
+		  mv.addObject("id", id);
+		  System.out.println("POSTPLANNER VIEWMAP");
+		  return mv;
 
+		} else {
+		  ModelAndView mv = new ModelAndView("/map");
+		  List<GenericModel> models = modelService.findAll();
+		  mv.addObject("mapModels", new Gson().toJson(models));
+		  System.out.println("POSTPLANNER VIEWMAP");
+		  return mv;
+		}
+	 default:
+		return getPlanner("id", action, id);
+	 }
+
+  }
+
+  @GetMapping("/")
+  public ModelAndView uploadFile(
+		@RequestParam(value = "action", required = false) Optional<String> action) {
+	 ModelAndView mv = new ModelAndView();
+	 mv.setViewName("/uploadFile");
+	 return mv;
+  }
+
+  @PostMapping("/saveUploadedFile")
+  public ModelAndView saveUploadedFile(@RequestParam("destination") String destination,
+		MultipartFile file) throws IOException, ApiException, InterruptedException {
+	 modelService.deleteAll();
+	 modelService.readCSVfile(file.getInputStream());
+	 ModelAndView mv = new ModelAndView();
+	 mv.setViewName("/planner");
+	 List<GenericModel> models = modelService.findAll();
+	 List<String> headers = new ArrayList<>();
+	 Type baseType = new TypeToken<List<ModelAttribute>>() {
+	 }.getType();
+	 List<List<ModelAttribute>> modelsAttributes = new ArrayList<>();
+	 models.stream().forEach(m -> modelsAttributes.add(new Gson().fromJson(m
+		  .getAttributes(), baseType)));
+	 modelsAttributes.get(0).forEach(attr -> {
+		if (attr.getModelId() == 0) {
+		  headers.add(attr.getKey());
+		}
+	 });
+	 mv.addObject("headers", headers);
+	 mv.addObject("models", models);
+	 mv.addObject("modelsAttributes", modelsAttributes);
+	 return mv;
   }
 }
