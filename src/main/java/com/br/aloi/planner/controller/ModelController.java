@@ -32,9 +32,9 @@ public class ModelController {
   private ModelService modelService;
 
   @GetMapping("/planner/edit/{id}")
-  public ModelAndView edit(@PathVariable("{id}") Long long1) {
-	 ModelAndView mv = new ModelAndView("/customerEdit");
-	 mv.addObject("csvModel", modelService.findByAttribute("id", long1.toString()));
+  public ModelAndView edit(@PathVariable("{id}") Long id) {
+	 ModelAndView mv = new ModelAndView("Edit");
+	 mv.addObject("csvModel", modelService.findById(id).get());
 	 return mv;
   }
 
@@ -48,14 +48,14 @@ public class ModelController {
 	 switch (action.get()) {
 	 case "viewMap":
 		if (id.isPresent()) {
-		  ModelAndView mv = new ModelAndView("/map");
+		  ModelAndView mv = new ModelAndView("map");
 		  Optional<GenericModel> models = modelService.findById(id.get());
 		  System.out.println(models.get().getAttributes());
 		  mv.addObject("mapModels", new Gson().toJson(models.get()));
 		  return mv;
 		} else {
 		  System.out.println("GETPLANNER VIEWMAP TODOS");
-		  ModelAndView mv = new ModelAndView("/map");
+		  ModelAndView mv = new ModelAndView("map");
 		  return mv;
 		}
 	 default:
@@ -81,20 +81,17 @@ public class ModelController {
   }
 
   @GetMapping("/planner/delete/{id}")
-  public ModelAndView delete(@PathVariable("id") Integer id) throws ApiException,
+  public String delete(@PathVariable("id") Long id) throws ApiException,
 		InterruptedException, IOException {
-	 modelService.delete(modelService.findByAttribute("id", id).get(0));
-	 return getPlanner("id", null, null);
+	 modelService.delete(modelService.findById(id).get());
+	 return "planner";
   }
 
   @PostMapping("/planner/save")
-  public ModelAndView save(@Valid GenericModel customer, BindingResult result)
+  public String save(@Valid GenericModel customer, BindingResult result)
 		throws ApiException, InterruptedException, IOException {
-	 if (result.hasErrors()) {
-		return edit(customer.getId());
-	 }
 	 modelService.save(customer);
-	 return getPlanner("id", null, null);
+	 return "planner";
   }
 
   @PostMapping("/planner")
