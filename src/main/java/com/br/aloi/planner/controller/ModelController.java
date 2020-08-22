@@ -128,7 +128,7 @@ public class ModelController {
   public ModelAndView uploadFile(
 		@RequestParam(value = "action", required = false) Optional<String> action) {
 	 ModelAndView mv = new ModelAndView();
-	 mv.setViewName("/uploadFile");
+	 mv.setViewName("uploadFile.html");
 	 return mv;
   }
 
