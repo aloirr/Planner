@@ -60,7 +60,7 @@ public class ModelController {
 		}
 	 default:
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/planner");
+		mv.setViewName("planner");
 		List<GenericModel> models = modelService.findAll();
 		List<String> headers = new ArrayList<>();
 		Type baseType = new TypeToken<List<ModelAttribute>>() {
@@ -106,13 +106,13 @@ public class ModelController {
 	 switch (action.get()) {
 	 case "viewMap":
 		if (id.isPresent()) {
-		  ModelAndView mv = new ModelAndView("/map");
+		  ModelAndView mv = new ModelAndView("map");
 		  mv.addObject("id", id);
 		  System.out.println("POSTPLANNER VIEWMAP");
 		  return mv;
 
 		} else {
-		  ModelAndView mv = new ModelAndView("/map");
+		  ModelAndView mv = new ModelAndView("map");
 		  List<GenericModel> models = modelService.findAll();
 		  mv.addObject("mapModels", new Gson().toJson(models));
 		  System.out.println("POSTPLANNER VIEWMAP");
@@ -138,7 +138,7 @@ public class ModelController {
 	 modelService.deleteAll();
 	 modelService.readCSVfile(file.getInputStream());
 	 ModelAndView mv = new ModelAndView();
-	 mv.setViewName("/planner");
+	 mv.setViewName("planner");
 	 List<GenericModel> models = modelService.findAll();
 	 List<String> headers = new ArrayList<>();
 	 Type baseType = new TypeToken<List<ModelAttribute>>() {

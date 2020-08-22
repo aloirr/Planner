@@ -29,13 +29,13 @@ public class GoogleMapApiController {
 	 if (id.isPresent()) {
 		Optional<GenericModel> gModel = modelService.findById(id.get());
 		mv.addObject("mapModels", new Gson().toJson(gModel.get()));
-		mv.setViewName("/map");
+		mv.setViewName("map");
 		System.out.println("GETMAP VER 1 CLIENTE MAPA");
 		return mv;
 	 } else {
 		List<GenericModel> models = modelService.findAll();
 		mv.addObject("mapModels", new Gson().toJson(models));
-		mv.setViewName("/map");
+		mv.setViewName("map");
 		System.out.println("GETMAP VER TODOS OS CLIENTES NO MAPA");
 		return mv;
 	 }
@@ -49,12 +49,12 @@ public class GoogleMapApiController {
 		Optional<GenericModel> gModel = modelService.findById(id.get());
 		System.out.println("POSTMAP VER 1 CLIENTE NO MAPA");
 		mv.addObject("mapModels", new Gson().toJson(gModel.get()));
-		mv.setViewName("/map");
+		mv.setViewName("map");
 		return mv;
 	 } else {
 		List<GenericModel> models = modelService.findAll();
 		mv.addObject("mapModels", new Gson().toJson(models));
-		mv.setViewName("/map");
+		mv.setViewName("map");
 		System.out.println("POSTMAP VER TODOS OS CLIENTES NO MAPA");
 		return mv;
 	 }
